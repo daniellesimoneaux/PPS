@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Guide to CCBHC PPS-1 Reimbursement for IDCC</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles for Inter font and general body styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background, similar to Interborough */
+            color: #333; /* Darker text for better contrast, similar to Interborough */
+        }
+        /* Custom tooltips */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position above the element */
+            left: 50%;
+            margin-left: -100px; /* Center the tooltip */
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.875rem; /* text-sm */
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%; /* At the bottom of the tooltip */
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Custom colors based on Interborough website */
+        .color-primary-blue { color: #004080; } /* Dark blue for main accents */
+        .bg-primary-blue-light { background-color: #e6f0fa; } /* Light blue for section backgrounds */
+        .border-primary-blue-medium { border-color: #a0c0e0; } /* Medium blue for borders */
+        .text-accent-green { color: #28a745; } /* A standard green for positive values */
+        .text-accent-red { color: #dc3545; } /* A standard red for warnings/critical */
+        .bg-accent-yellow-light { background-color: #fff3cd; } /* Light yellow for info/warning */
+        .border-accent-yellow-medium { border-color: #ffeeba; }
+
+        /* New button color for better visibility */
+        .bg-button-dark-blue { background-color: #003366; }
+        .hover\:bg-button-dark-blue-hover:hover { background-color: #002244; }
+
+        /* Hidden by default for detailed sections */
+        .hidden-section {
+            display: none;
+        }
+
+        /* Card hover effect */
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Modal specific styles - Corrected for reliable centering and initial hidden state */
+        .modal {
+            display: none; /* Hidden by default - This is crucial! */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+            backdrop-filter: blur(4px); /* Blur background */
+            padding: 20px;
+            /* Flexbox for perfect centering, but only applied when shown via JS */
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 700px;
+            position: relative; /* Keep relative for close button positioning */
+            animation: fadeIn 0.3s ease-out;
+        }
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #333;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="p-6 flex items-center justify-center min-h-screen">
+    <div class="container mx-auto bg-white rounded-xl shadow-2xl p-8 max-w-5xl border-t-8 border-primary-blue">
+        <h1 class="text-4xl font-extrabold text-center color-primary-blue mb-4">
+            Interactive Guide to CCBHC PPS-1 Reimbursement for IDCC
+        </h1>
+        <p class="text-center text-lg text-gray-700 mb-10">
+            Explore the mechanics, data requirements, and strategic optimization of the PPS-1 rate at **IDCC**.
+        </p>
+
+        <!-- Overview Cards Section -->
+        <div id="overview-cards" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <!-- Card 1: Core Concept -->
+            <div class="bg-primary-blue-light p-6 rounded-lg shadow-md border border-primary-blue-medium flex flex-col items-center text-center cursor-pointer card-hover transition-all duration-300" onclick="showSection('section-core-concept')">
+                <i class="fas fa-hand-holding-usd text-5xl color-primary-blue mb-4"></i>
+                <h2 class="text-2xl font-bold color-primary-blue mb-3">
+                    1. The Core Concept: PPS-1
+                </h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Understand what PPS-1 is, its fixed daily payment nature, and the current rates.
+                </p>
+                <button class="px-6 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200">Learn More</button>
+            </div>
+
+            <!-- Card 2: How the Rate is Calculated -->
+            <div class="bg-primary-blue-light p-6 rounded-lg shadow-md border border-primary-blue-medium flex flex-col items-center text-center cursor-pointer card-hover transition-all duration-300" onclick="showSection('section-calculation')">
+                <i class="fas fa-calculator text-5xl color-primary-blue mb-4"></i>
+                <h2 class="text-2xl font-bold color-primary-blue mb-3">
+                    2. How the Rate is Calculated
+                </h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Dive into the formula and the definition of "Threshold Visits."
+                </p>
+                <button class="px-6 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200">Learn More</button>
+            </div>
+
+            <!-- Card 3: The 3-Year Rebasing Cycle -->
+            <div class="bg-primary-blue-light p-6 rounded-lg shadow-md border border-primary-blue-medium flex flex-col items-center text-center cursor-pointer card-hover transition-all duration-300" onclick="showSection('section-rebasing')">
+                <i class="fas fa-sync-alt text-5xl color-primary-blue mb-4"></i>
+                <h2 class="text-2xl font-bold color-primary-blue mb-3">
+                    3. The 3-Year Rebasing Cycle
+                </h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Discover why this cycle is critical and the impact of staffing on future rates.
+                </p>
+                <button class="px-6 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200">Learn More</button>
+            </div>
+
+            <!-- Card 4: Data Requirements & Sources -->
+            <div class="bg-primary-blue-light p-6 rounded-lg shadow-md border border-primary-blue-medium flex flex-col items-center text-center cursor-pointer card-hover transition-all duration-300" onclick="showSection('section-data-requirements')">
+                <i class="fas fa-database text-5xl color-primary-blue mb-4"></i>
+                <h2 class="text-2xl font-bold color-primary-blue mb-3">
+                    4. Data Requirements & Sources
+                </h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Understand where current data comes from and ideal future sources.
+                </p>
+                <button class="px-6 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200">Learn More</button>
+            </div>
+
+            <!-- Card 5: Maintaining CCBHC Status -->
+            <div class="bg-primary-blue-light p-6 rounded-lg shadow-md border border-primary-blue-medium flex flex-col items-center text-center cursor-pointer card-hover transition-all duration-300" onclick="showSection('section-ccbhc-status')">
+                <i class="fas fa-award text-5xl color-primary-blue mb-4"></i>
+                <h2 class="text-2xl font-bold color-primary-blue mb-3">
+                    5. Maintaining CCBHC Status
+                </h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Learn about compliance, quality measures, and scope of services.
+                </p>
+                <button class="px-6 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200">Learn More</button>
+            </div>
+
+            <!-- New Card 6: Service Mix & Intensity -->
+            <div class="bg-primary-blue-light p-6 rounded-lg shadow-md border border-primary-blue-medium flex flex-col items-center text-center cursor-pointer card-hover transition-all duration-300" onclick="showSection('section-service-mix-intensity')">
+                <i class="fas fa-chart-bar text-5xl color-primary-blue mb-4"></i>
+                <h2 class="text-2xl font-bold color-primary-blue mb-3">
+                    6. Service Mix & Intensity
+                </h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Optimize operations and resource management within the fixed PPS-1 rate.
+                </p>
+                <button class="px-6 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200">Learn More</button>
+            </div>
+
+            <!-- New Card 7: Process Improvements -->
+            <div class="bg-primary-blue-light p-6 rounded-lg shadow-md border border-primary-blue-medium flex flex-col items-center text-center cursor-pointer card-hover transition-all duration-300" onclick="showSection('section-process-improvements')">
+                <i class="fas fa-cogs text-5xl color-primary-blue mb-4"></i>
+                <h2 class="text-2xl font-bold color-primary-blue mb-3">
+                    7. Process Improvements
+                </h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Streamline data flow between billing and finance for better visibility.
+                </p>
+                <button class="px-6 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200">Learn More</button>
+            </div>
+
+            <!-- New Card 8: Beyond the PPS-1 Rate -->
+            <div class="bg-primary-blue-light p-6 rounded-lg shadow-md border border-primary-blue-medium mt-8 flex flex-col items-center text-center cursor-pointer card-hover transition-all duration-300" onclick="showSection('section-holistic-finance')">
+                <i class="fas fa-hand-holding-heart text-5xl color-primary-blue mb-4"></i>
+                <h2 class="text-2xl font-bold color-primary-blue mb-3">
+                    8. Beyond the PPS-1 Rate
+                </h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Understand IDCC's overall financial picture and sustainability.
+                </p>
+                <button class="px-6 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200">Learn More</button>
+            </div>
+        </div>
+
+        <!-- Detailed Sections (Initially Hidden) -->
+
+        <!-- Section 1: Core Concept -->
+        <div id="section-core-concept" class="hidden-section p-8 bg-primary-blue-light rounded-lg shadow-md border border-primary-blue-medium">
+            <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-200 mb-6" onclick="showOverview()">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Overview
+            </button>
+            <h2 class="text-3xl font-bold color-primary-blue mb-5">1. The Core Concept: PPS-1</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                At its heart, the PPS-1 is a <span class="font-semibold color-primary-blue">fixed daily payment</span> received from **Medicaid** for each day a **Medicaid-eligible client** receives <span class="font-semibold color-primary-blue">any qualifying service</span> at an IDCC. It functions as a "Daily All-Inclusive Service Fee," meaning a flat rate covers all services provided to a Medicaid-eligible client within a single day, regardless of the number or intensity of those services.
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4 ml-4">
+                <li class="mb-2"><strong>Current Daily Rate:</strong>
+                    <ul class="list-circle list-inside ml-4">
+                        <li class="text-accent-green font-semibold">$311.31 (with Medicare Economic Index - MEI adjustment)</li>
+                        <li class="text-gray-700 font-semibold">$279.00 (without MEI adjustment)</li>
+                    </ul>
+                    <p class="text-sm text-gray-600 mt-1">
+                        <span class="tooltip cursor-pointer color-primary-blue hover:underline">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            <span class="tooltiptext">The MEI (Medicare Economic Index) is a measure of inflation for the costs of providing physician services.</span>
+                        </span>
+                        The MEI is an inflation measure for healthcare service costs.
+                    </p>
+                </li>
+                <li class="mt-4"><strong>"Threshold Visits":</strong>
+                    <p class="text-gray-700 mt-1">
+                        A "threshold visit" is a qualifying visit where a **Medicaid-eligible client** receives one or more CCBHC services on a given day. Even if multiple services are provided to a Medicaid-eligible client all on the same day, it still counts as just **one threshold visit** for PPS-1 reimbursement. This is because the PPS-1 is a fixed *daily* rate for Medicaid services.
+                    </p>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Section 2: How the Rate is Calculated -->
+        <div id="section-calculation" class="hidden-section p-8 bg-primary-blue-light rounded-lg shadow-md border border-primary-blue-medium">
+            <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-200 mb-6" onclick="showOverview()">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Overview
+            </button>
+            <h2 class="text-3xl font-bold color-primary-blue mb-5">2. How the PPS-1 Rate is Calculated</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                The PPS-1 rate is a cost-based rate, designed to cover operational expenses. It is fundamentally derived from the following formula:
+            </p>
+            <div class="bg-white p-6 rounded-lg shadow-inner text-center mb-6">
+                <p class="text-2xl font-bold color-primary-blue mb-4 cursor-pointer hover:underline" onclick="showNumeratorDetails()">
+                    Total Allowable Annual Costs
+                </p>
+                <div class="text-4xl font-extrabold color-primary-blue mb-4">
+                    =
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                    <span class="text-2xl font-semibold color-primary-blue cursor-pointer hover:underline" onclick="showDenominatorDetails()">
+                        Total Annual Threshold Visits
+                    </span>
+                    <p class="text-sm text-gray-600 mt-2">(Count of total visits where one or more CCBHC services were provided per 1 day to Medicaid-eligible clients)</p>
+                </div>
+            </div>
+            <p class="text-gray-700 leading-relaxed mt-4">
+                This formula highlights a crucial relationship:
+                <ul class="list-disc list-inside text-gray-700 ml-4 mt-2">
+                    <li>If **Total Allowable Annual Costs remain stable** and the **Total Annual Threshold Visits increase**, the calculated PPS-1 rate will tend to **decrease**. This means the cost per daily visit becomes lower.</li>
+                    <li>Conversely, if **Total Allowable Annual Costs remain stable** and the **Total Annual Threshold Visits decrease**, the calculated PPS-1 rate will tend to **increase**. This means the cost per daily visit becomes higher.</li>
+                </ul>
+                Therefore, effectively managing both costs and ensuring accurate capture of all qualifying threshold visits are vital for the rate calculation.
+            </p>
+        </div>
+
+        <!-- Section 3: The 3-Year Rebasing Cycle -->
+        <div id="section-rebasing" class="hidden-section p-8 bg-accent-yellow-light rounded-lg shadow-md border border-accent-yellow-medium">
+            <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-200 mb-6" onclick="showOverview()">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Overview
+            </button>
+            <h2 class="text-3xl font-bold text-gray-800 mb-5">3. The Critical 3-Year Rebasing Cycle</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                A crucial aspect of PPS-1 is its **3-year rebasing cycle**. Every three years, the state reviews the actual costs and threshold visit volumes from the previous period to set the <span class="font-semibold text-gray-800">new daily rate</span> for the subsequent three years.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div class="flex flex-col items-center text-center p-4 bg-white rounded-lg shadow-sm">
+                    <i class="fas fa-users text-5xl text-gray-800 mb-3"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Staffing: The Largest Expense</h3>
+                    <p class="text-gray-700">
+                        The biggest cost driver is staffing. Fluctuations here, or in other expenses, without corresponding changes in service volume, directly impact the future rate.
+                    </p>
+                </div>
+                <div class="flex flex-col items-center text-center p-4 bg-white rounded-lg shadow-sm">
+                    <i class="fas fa-chart-pie text-5xl text-gray-800 mb-3"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Impact on Future Rate</h3>
+                    <p class="text-gray-700">
+                        Maintaining <span class="font-semibold text-gray-800">stability and consistency</span> in operations and expenses is key to securing a favorable and sustainable PPS rate during each rebasing period. This involves not only managing costs but also ensuring consistent and accurate reporting of all qualifying threshold visits for Medicaid-eligible clients. The state aims for the rebased rate to accurately reflect the actual cost of providing services, meaning efficiency gains (more visits for similar costs) could lead to rate adjustments.
+                    </p>
+                </div>
+            </div>
+            <p class="text-lg font-semibold text-gray-800 mt-6 text-center">
+                Effective cost management and consistent service delivery (measured by threshold visits) ensure the ability to continue providing essential services while remaining financially healthy.
+            </p>
+        </div>
+
+        <!-- Section 4: Data Requirements & Sources -->
+        <div id="section-data-requirements" class="hidden-section p-8 bg-primary-blue-light rounded-lg shadow-md border border-primary-blue-medium">
+            <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-200 mb-6" onclick="showOverview()">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Overview
+            </button>
+            <h2 class="text-3xl font-bold color-primary-blue mb-5">4. Data Requirements and Current Sources</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                To gain comprehensive visibility and effectively manage PPS-1 reimbursement, accurate and centralized data is essential. Here's a breakdown of key data points, their current sources, and where they ideally need to be for optimal analysis:
+            </p>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white rounded-lg shadow-sm">
+                    <thead class="bg-primary-blue text-white">
+                        <tr>
+                            <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider rounded-tl-lg">Data Point</th>
+                            <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">Current Source(s)</th>
+                            <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">Ideal Source/Centralization</th>
+                            <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider rounded-tr-lg">Importance for PPS-1</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="py-3 px-4 align-top">Client Visit Data (Number of visits, type of visit, duration)</td>
+                            <td class="py-3 px-4 align-top">CareLogic</td>
+                            <td class="py-3 px-4 align-top">Centralized EHR/BI Tool</td>
+                            <td class="py-3 px-4 align-top">Directly impacts "Total Annual Threshold Visits" in the PPS-1 calculation. Essential for understanding service volume and patterns.</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="py-3 px-4 align-top">Client Medicaid Eligibility Status</td>
+                            <td class="py-3 px-4 align-top">CareLogic (Verification Process)</td>
+                            <td class="py-3 px-4 align-top">Integrated EHR/Eligibility Verification System</td>
+                            <td class="py-3 px-4 align-top">Crucial for ensuring visits are reimbursable under PPS-1. Inaccurate eligibility can lead to billing for non-qualifying visits, distorting the "Total Annual Threshold Visits" denominator and potentially leading to an unfavorable rebased rate.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 align-top">Expense Data (Overall, by category)</td>
+                            <td class="py-3 px-4 align-top">QuickBooks</td>
+                            <td class="py-3 px-4 align-top">Integrated Financial System/BI Tool</td>
+                            <td class="py-3 px-4 align-top">Forms the "Total Allowable Annual Costs" in the PPS-1 calculation. Crucial for understanding cost structure and profitability.</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="py-3 px-4 align-top">Budget Information (Departmental, category-specific)</td>
+                            <td class="py-3 px-4 align-top">Missing / Dispersed</td>
+                            <td class="py-3 px-4 align-top">Centralized Financial Planning System</td>
+                            <td class="py-3 px-4 align-top">Essential for variance analysis (actual vs. budget), identifying over/under spending, and strategic financial planning. Directly impacts ability to manage allowable costs for rebasing.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 align-top">Staffing Data (Hires, new hires, open positions, FTE count by department/clinic)</td>
+                            <td class="py-3 px-4 align-top">Manual updated Excel / Not centralized</td>
+                            <td class="py-3 px-4 align-top">Integrated HRIS (Human Resources Information System)</td>
+                            <td class="py-3 px-4 align-top">Staffing is the largest cost driver and has a significant impact on "Total Allowable Annual Costs." Accurate data is vital for forecasting, workforce planning, and managing costs to stabilize the PPS rate during rebasing.</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="py-3 px-4 align-top">Quality Measure Data (e.g., client outcomes, engagement rates)</td>
+                            <td class="py-3 px-4 align-top">EHR (CareLogic), Manual tracking</td>
+                            <td class="py-3 px-4 align-top">Integrated EHR/Quality Reporting System</td>
+                            <td class="py-3 px-4 align-top">Essential for maintaining CCBHC designation (compliance); provides data for internal quality improvement and potential future quality-based incentives.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 align-top">Service Mix/Intensity Data (e.g., types of services per daily visit, duration of services)</td>
+                            <td class="py-3 px-4 align-top">CareLogic (detailed service logs)</td>
+                            <td class="py-3 px-4 align-top">EHR/BI Tool with granular service tracking</td>
+                            <td class="py-3 px-4 align-top">Crucial for operational efficiency, resource allocation, and understanding the true cost of care within the fixed PPS-1 rate. Informs strategic planning and advocacy.</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="py-3 px-4 align-top">Actual Reimbursement Received (PPS-1)</td>
+                            <td class="py-3 px-4 align-top">Millin (Billing System), Bank Statements, Remittance Advices</td>
+                            <td class="py-3 px-4 align-top">Integrated Billing/Financial System, Centralized Data Warehouse</td>
+                            <td class="py-3 px-4 align-top">Essential for reconciling billed amounts with actual cash received, identifying payment discrepancies, denials, and managing cash flow. Provides the true PPS-1 revenue picture.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 align-top">Actual Reimbursement Received (Non-PPS-1)</td>
+                            <td class="py-3 px-4 align-top">Millin (Billing System), Bank Statements, Remittance Advices</td>
+                            <td class="py-3 px-4 align-top">Integrated Billing/Financial System, Centralized Data Warehouse</td>
+                            <td class="py-3 px-4 align-top">Important for understanding the full scope of IDCC's revenue streams from other payers (e.g., Medicare, commercial insurance, grants, self-pay) that are not covered by the PPS-1 model.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-gray-700 leading-relaxed mt-6">
+                **Action Item:** Centralizing and improving the accuracy of Budget and Staffing data are critical next steps to unlock full optimization capabilities for PPS-1 reimbursement. Additionally, robust processes for verifying **Client Medicaid Eligibility Status** are paramount to ensure all billed threshold visits are indeed reimbursable.
+            </p>
+        </div>
+
+        <!-- Section 5: Maintaining CCBHC Status -->
+        <div id="section-ccbhc-status" class="hidden-section p-8 bg-primary-blue-light rounded-lg shadow-md border border-primary-blue-medium">
+            <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-200 mb-6" onclick="showOverview()">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Overview
+            </button>
+            <h2 class="text-3xl font-bold color-primary-blue mb-5">5. Maintaining CCBHC Status: Beyond Reimbursement</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Being a CCBHC is more than just a payment model; it's a commitment to a high standard of care. To keep the PPS-1 rate and operate as a CCBHC, IDCC must consistently meet specific federal and state requirements.
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 ml-4">
+                <li class="mb-3"><strong>Core Compliance:</strong>
+                    <p class="mt-1">Adhering to all rules and standards set for CCBHCs, ensuring IDCC meets its designation requirements.</p>
+                    <button class="px-4 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200 mt-2" onclick="showModal('coreComplianceModal')">Learn More</button>
+                </li>
+                <li class="mb-3"><strong>Quality Measure Data:</strong>
+                    <p class="mt-1">Collecting and reporting data on how well services are working and the outcomes for clients.</p>
+                    <button class="px-4 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200 mt-2" onclick="showModal('qualityMeasureModal')">Learn More</button>
+                </li>
+                <li class="mb-3"><strong>Adherence to Scope of Services:</strong>
+                    <p class="mt-1">Providing all the required types of comprehensive care, from crisis services to peer support, as mandated by the CCBHC model.</p>
+                    <button class="px-4 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200 mt-2" onclick="showModal('scopeOfServicesModal')">Learn More</button>
+                </li>
+            </ul>
+            <p class="text-gray-700 leading-relaxed mt-4">
+                **In essence:** Maintaining CCBHC status is about upholding the standards of comprehensive, high-quality behavioral healthcare. It ensures IDCC remains eligible for the PPS-1 rate and positions it as a leader in integrated care.
+            </p>
+        </div>
+
+        <!-- New Section 6: Service Mix & Intensity -->
+        <div id="section-service-mix-intensity" class="hidden-section p-8 bg-primary-blue-light rounded-lg shadow-md border border-primary-blue-medium">
+            <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-200 mb-6" onclick="showOverview()">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Overview
+            </button>
+            <h2 class="text-3xl font-bold color-primary-blue mb-5">6. Service Mix & Intensity: Optimizing Operations</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                While the PPS-1 rate is fixed per daily threshold visit, understanding *what* services are delivered and *how much* effort they take is key to running IDCC efficiently and sustainably.
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 ml-4">
+                <li class="mb-3"><strong>Resource Allocation:</strong>
+                    <p class="mt-1">Matching staff and resources to the actual needs of complex client visits to ensure efficient service delivery.</p>
+                    <button class="px-4 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200 mt-2" onclick="showModal('resourceAllocationModal')">Learn More</button>
+                </li>
+                <li class="mb-3"><strong>True Cost of Care:</strong>
+                    <p class="mt-1">Knowing if the fixed daily rate truly covers the cost of intensive services provided within a single day.</p>
+                    <button class="px-4 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200 mt-2" onclick="showModal('trueCostModal')">Learn More</button>
+                </li>
+                <li class="mb-3"><strong>Program Design and Capacity Planning:</strong>
+                    <p class="mt-1">Using patterns in service delivery to improve existing programs, create new ones, and plan clinic capacity effectively.</p>
+                    <button class="px-4 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200 mt-2" onclick="showModal('programDesignModal')">Learn More</button>
+                </li>
+                <li class="mb-3"><strong>Advocacy:</strong>
+                    <p class="mt-1">Using data to show the real cost of care and advocate for fair reimbursement rates in the future.</p>
+                    <button class="px-4 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200 mt-2" onclick="showModal('advocacyModal')">Learn More</button>
+                </li>
+            </ul>
+            <p class="text-gray-700 leading-relaxed mt-4">
+                **In essence:** Tracking service mix and intensity allows IDCC to manage operations intelligently, ensure sustainable service delivery, and be prepared to advocate for future payment models that might better reflect the complexity of care provided.
+            </p>
+        </div>
+
+        <!-- New Section 7: Process Improvements -->
+        <div id="section-process-improvements" class="hidden-section p-8 bg-primary-blue-light rounded-lg shadow-md border border-primary-blue-medium">
+            <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-200 mb-6" onclick="showOverview()">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Overview
+            </button>
+            <h2 class="text-3xl font-bold color-primary-blue mb-5">7. Process Improvements: Connecting Billing & Finance</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Even if billing (using Millin) and finance (using QuickBooks for expenses) seem separate, they **must be closely connected** for accurate financial tracking and effective PPS-1 management. At IDCC, we understand this connection is currently manual.
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 ml-4">
+                <li class="mb-3"><strong>Revenue Visibility:</strong>
+                    <p class="mt-1">Billing generates claims that become IDCC's revenue. Finance needs to see not just *what was billed* but also *what was actually paid* by Medicaid. This helps them track cash flow and true profitability.</p>
+                    <button class="px-4 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200 mt-2" onclick="showModal('revenueVisibilityModal')">Learn More</button>
+                </li>
+                <li class="mb-3"><strong>Expense-Revenue Link:</strong>
+                    <p class="mt-1">Expenses (from QuickBooks) are incurred to provide services that generate revenue (from Millin). Finance needs to compare these to understand if IDCC is financially healthy.</p>
+                    <button class="px-4 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200 mt-2" onclick="showModal('expenseRevenueLinkModal')">Learn More</button>
+                </li>
+                <li class="mb-3"><strong>Data Flow & Reconciliation:</strong>
+                    <p class="mt-1">Information about claims and payments needs to flow smoothly from Millin to finance for accurate financial reporting and to identify any billing issues. **Currently, this is a manual process at IDCC, which can lead to delays and potential discrepancies.**</p>
+                    <button class="px-4 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200 mt-2" onclick="showModal('dataFlowModal')">Learn More</button>
+                </li>
+            </ul>
+            <p class="text-gray-700 leading-relaxed mt-4">
+                **In essence:** Streamlining the connection between billing and finance ensures a complete and accurate financial picture, which is vital for managing the PPS-1 rate and overall IDCC sustainability.
+            </p>
+        </div>
+
+    </div>
+
+        <!-- New Section 8: Beyond the PPS-1 Rate -->
+        <div id="section-holistic-finance" class="hidden-section p-8 bg-primary-blue-light rounded-lg shadow-md border border-primary-blue-medium mt-10">
+            <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-200 mb-6" onclick="showOverview()">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Overview
+            </button>
+            <h2 class="text-3xl font-bold color-primary-blue mb-5">8. Beyond the PPS-1 Rate: Holistic Financial Health</h2>
+            <p class="text-center text-gray-700 leading-relaxed mb-4">
+                While the PPS-1 rate is a cornerstone of IDCC's funding, it's part of a larger financial ecosystem. Understanding the complete picture is crucial for IDCC's overall sustainability.
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 ml-4">
+                <li class="mb-3"><strong>Other Revenue Streams:</strong>
+                    <p class="mt-1">IDCC likely receives revenue from sources beyond PPS-1 Medicaid, such as Medicare, commercial insurance, grants, or self-pay. These are vital for covering services not eligible for PPS-1 or for clients without Medicaid.</p>
+                    <button class="px-4 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200 mt-2" onclick="showModal('otherRevenueModal')">Learn More</button>
+                </li>
+                <li class="mb-3"><strong>Coverage of Non-Billable Services:</strong>
+                    <p class="mt-1">The PPS-1 rate is designed to cover the *total allowable costs* of providing comprehensive CCBHC services, including those that are essential but not individually billable (like care coordination, outreach, and community engagement).</p>
+                    <button class="px-4 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200 mt-2" onclick="showModal('nonBillableCoverageModal')">Learn More</button>
+                </li>
+                <li class="mb-3"><strong>Overall Financial Sustainability:</strong>
+                    <p class="mt-1">Combining insights from all revenue streams and expenses provides a true understanding of IDCC's financial health, enabling strategic decisions for long-term growth and mission fulfillment.</p>
+                    <button class="px-4 py-2 bg-button-dark-blue text-white rounded-md hover:bg-button-dark-blue-hover transition-colors duration-200 mt-2" onclick="showModal('sustainabilityModal')">Learn More</button>
+                </li>
+            </ul>
+            <p class="text-gray-700 leading-relaxed mt-4">
+                **In essence:** A holistic financial view ensures IDCC can effectively manage all aspects of its operations, secure diverse funding, and continue to provide high-quality, comprehensive behavioral healthcare to the community.
+            </p>
+        </div>
+
+
+    <!-- Modals for Numerator and Denominator Details -->
+    <div id="numeratorModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('numeratorModal')">&times;</span>
+            <h3 class="text-2xl font-bold color-primary-blue mb-4">Total Allowable Annual Costs</h3>
+            <p class="text-gray-700 mb-4">This represents all costs incurred by the CCBHC that are deemed allowable by the state for the purpose of calculating the PPS-1 rate.</p>
+            <table class="min-w-full bg-white rounded-lg shadow-sm border border-primary-blue-medium">
+                <thead class="bg-primary-blue text-white">
+                    <tr>
+                        <th class="py-2 px-3 text-left text-sm font-semibold">Component</th>
+                        <th class="py-2 px-3 text-left text-sm font-semibold">Source(s)</th>
+                        <th class="py-2 px-3 text-left text-sm font-semibold">Metric/Details</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    <tr>
+                        <td class="py-2 px-3 align-top">Direct Costs</td>
+                        <td class="py-2 px-3 align-top">QuickBooks, Payroll</td>
+                        <td class="py-2 px-3 align-top">Salaries & Wages (Staffing), Supplies, Direct Program Expenses. These are costs directly attributable to providing CCBHC services.</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="py-2 px-3 align-top">Indirect Costs</td>
+                        <td class="py-2 px-3 align-top">QuickBooks, Financial Reports</td>
+                        <td class="py-2 px-3 align-top">Rent, Utilities, Administrative Salaries, Insurance. These are allocated costs necessary for overall clinic operation but not directly tied to a specific service.</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-3 align-top">Anticipated Costs</td>
+                        <td class="py-2 px-3 align-top">Internal Projections, (Missing) Budget Data</td>
+                        <td class="py-2 px-3 align-top">Projected changes in expenses for new services, staffing increases, or operational shifts not yet reflected in historical data. Requires robust forecasting.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="text-gray-700 text-sm mt-4">
+                **Note:** The accuracy of this data, especially for staffing and anticipated costs, is crucial for favorable rate rebasing.
+            </p>
+        </div>
+    </div>
+
+    <div id="denominatorModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('denominatorModal')">&times;</span>
+            <h3 class="text-2xl font-bold color-primary-blue mb-4">Total Annual Threshold Visits</h3>
+            <p class="text-gray-700 mb-4">This is the total count of unique client-days where a Medicaid-eligible client received one or more qualifying CCBHC services within a year.</p>
+            <table class="min-w-full bg-white rounded-lg shadow-sm border border-primary-blue-medium">
+                <thead class="bg-primary-blue text-white">
+                    <tr>
+                        <th class="py-2 px-3 text-left text-sm font-semibold">Component</th>
+                        <th class="py-2 px-3 text-left text-sm font-semibold">Source(s)</th>
+                        <th class="py-2 px-3 text-left text-sm font-semibold">Metric/Details</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    <tr>
+                        <td class="py-2 px-3 align-top">Qualifying Service Delivery</td>
+                        <td class="py-2 px-3 align-top">CareLogic (EHR)</td>
+                        <td class="py-2 px-3 align-top">Any of the 9 core CCBHC services provided (e.g., therapy, case management, crisis intervention).</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="py-2 px-3 align-top">Client Eligibility</td>
+                        <td class="py-2 px-3 align-top">CareLogic (Medicaid Verification)</td>
+                        <td class="py-2 px-3 align-top">Client must be Medicaid-eligible on the day the service(s) were provided. Visits for non-Medicaid clients do NOT count towards this total for PPS-1.</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-3 align-top">Daily Count</td>
+                        <td class="py-2 px-3 align-top">CareLogic (Service Logging)</td>
+                        <td class="py-2 px-3 align-top">Only one "threshold visit" is counted per client per day, regardless of how many qualifying services were received on that day.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="text-gray-700 text-sm mt-4">
+                **Note:** Accurate and complete documentation of services and client eligibility in CareLogic is essential to maximize this count and ensure the denominator accurately reflects billable activity.
+            </p>
+        </div>
+    </div>
+
+    <!-- Modals for Section 5: Maintaining CCBHC Status -->
+    <div id="coreComplianceModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('coreComplianceModal')">&times;</span>
+            <h3 class="text-2xl font-bold color-primary-blue mb-4">Core Compliance Details</h3>
+            <p class="text-gray-700 mb-4">
+                This refers to adhering to *all* federal and state certification criteria for CCBHCs. These criteria cover a broad range of operational aspects, ensuring IDCC provides comprehensive and integrated care.
+            </p>
+            <p class="text-gray-700 mb-4 font-semibold">Key compliance areas include:</p>
+            <ul class="list-disc list-inside text-gray-700 mb-4 ml-4">
+                <li>**24/7 Crisis Services:** Availability of mobile crisis teams and crisis stabilization.</li>
+                <li>**Evidence-Based Practices:** Utilization of clinically proven treatment methods.</li>
+                <li>**Care Coordination:** Seamless integration of behavioral health with physical healthcare and social services.</li>
+                <li>**Patient-Centered Treatment Planning:** Individualized plans developed with client and family input.</li>
+                <li>**Staffing Requirements:** Ensuring the presence of a diverse and qualified workforce (e.g., psychiatrists, nurses, peer specialists).</li>
+                <li>**Data Collection & Reporting:** Accurate and timely submission of required operational and quality data.</li>
+                <li>**Accessibility:** Providing services regardless of a client's ability to pay or location.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                **Why it's crucial:** Non-compliance can lead to loss of CCBHC designation, which means losing eligibility for the PPS-1 reimbursement model entirely. Regular internal audits and staying updated on regulatory changes are key.
+            </p>
+        </div>
+    </div>
+
+    <div id="qualityMeasureModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('qualityMeasureModal')">&times;</span>
+            <h3 class="text-2xl font-bold color-primary-blue mb-4">Quality Measure Data Details</h3>
+            <p class="text-gray-700 mb-4">
+                CCBHCs are required to collect and report on specific quality measures defined by SAMHSA and CMS. These measures track various aspects of care, such as client engagement rates, follow-up after hospitalization, and improvements in symptom severity.
+            </p>
+            <p class="text-gray-700 mb-4">
+                **Why it's crucial:** Beyond compliance, this data demonstrates the effectiveness of services, supports advocacy for funding, and guides internal quality improvement efforts. While not currently tied to direct payments in NYS, it's vital for proving the value of the CCBHC model.
+            </p>
+        </div>
+    </div>
+
+    <div id="scopeOfServicesModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('scopeOfServicesModal')">&times;</span>
+            <h3 class="text-2xl font-bold color-primary-blue mb-4">Adherence to Scope of Services Details</h3>
+            <p class="text-gray-700 mb-4">
+                CCBHCs must provide a comprehensive set of nine core services, either directly or through Designated Collaborating Organizations (DCOs). These include crisis services, screening/assessment, treatment planning, outpatient mental health/SUD services, primary care screening, case management, psychiatric rehabilitation, peer supports, and intensive care for military/veterans.
+            </p>
+            <p class="text-gray-700 mb-4">
+                **Why it's crucial:** Providing this full spectrum of care is a fundamental requirement of the CCBHC model. It ensures clients receive holistic, integrated services and is regularly reviewed as part of the designation maintenance.
+            </p>
+        </div>
+    </div>
+
+    <!-- Modals for Section 6: Service Mix & Intensity -->
+    <div id="resourceAllocationModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('resourceAllocationModal')">&times;</span>
+            <h3 class="text-2xl font-bold color-primary-blue mb-4">Resource Allocation Details</h3>
+            <p class="text-gray-700 mb-4">
+                Understanding the mix of services provided within a single daily threshold visit helps managers allocate staff and other resources effectively. For example, a day involving crisis intervention and multiple therapy sessions requires more resources than a day with a single, brief follow-up.
+            </p>
+            <p class="text-gray-700 mb-4">
+                **Why it's crucial:** This insight ensures IDCC has the right staff with the right skills available to meet client needs, preventing burnout or underutilization of resources, even within the fixed daily PPS-1 rate.
+            </p>
+        </div>
+    </div>
+
+    <div id="trueCostModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('trueCostModal')">&times;</span>
+            <h3 class="text-2xl font-bold color-primary-blue mb-4">True Cost of Care Details</h3>
+            <p class="text-gray-700 mb-4">
+                While the PPS-1 rate is fixed, the actual cost to IDCC for a threshold visit can vary significantly based on the intensity and number of services provided. Tracking this allows IDCC to see if the fixed rate truly covers the cost of more complex or intensive daily encounters.
+            </p>
+            <p class="text-gray-700 mb-4">
+                **Why it's crucial:** Identifying services or client needs that consistently cost more than the PPS-1 reimbursement helps in making operational adjustments, seeking efficiencies, or preparing data for future rate negotiations/advocacy.
+            </p>
+        </div>
+    </div>
+
+    <div id="programDesignModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('programDesignModal')">&times;</span>
+            <h3 class="text-2xl font-bold color-primary-blue mb-4">Program Design and Capacity Planning Details</h3>
+            <p class="text-gray-700 mb-4">
+                Analyzing patterns in service mix (e.g., which services are often delivered together on the same day) can reveal insights into client needs and effective integrated care pathways. This data helps in designing new programs or refining existing ones.
+            </p>
+            <p class="text-gray-700 mb-4">
+                **Why it's crucial:** It informs strategic decisions about service offerings, ensures IDCC's capacity (staff, space) aligns with the actual intensity of care provided, and helps optimize client flow.
+            </p>
+        </div>
+    </div>
+
+    <div id="advocacyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('advocacyModal')">&times;</span>
+            <h3 class="text-2xl font-bold color-primary-blue mb-4">Advocacy Details</h3>
+            <p class="text-gray-700 mb-4">
+                If IDCC consistently provides a high volume of complex, resource-intensive services within the fixed PPS-1 rate, this data can be a powerful tool for advocacy. It demonstrates that the fixed rate, while simplifying billing, might not fully capture the true cost of comprehensive care for all clients.
+            </p>
+            <p class="text-gray-700 mb-4">
+                **Why it's crucial:** This data can be used to support arguments for future rate adjustments, the introduction of value-based payments, or other policy changes that better reflect the complexity and cost of care provided by CCBHCs.
+            </p>
+        </div>
+    </div>
+
+    <!-- Modals for Section 7: Process Improvements -->
+    <div id="revenueVisibilityModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('revenueVisibilityModal')">&times;</span>
+            <h3 class="text-2xl font-bold color-primary-blue mb-4">Revenue Visibility Details</h3>
+            <p class="text-gray-700 mb-4">
+                Billing systems like Millin are responsible for creating and submitting claims for services rendered. Finance needs to receive accurate and timely information from billing about:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4 ml-4">
+                <li>**Claims Submitted:** What has been billed and the expected reimbursement.</li>
+                <li>**Payments Received:** Actual cash inflows from payers (Medicaid).</li>
+                <li>**Denials and Adjustments:** Reasons for non-payment or partial payment.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                **Why it's crucial:** Without this data, finance cannot accurately forecast cash flow, reconcile bank statements, or determine the true revenue generated by PPS-1 services. This impacts budgeting and overall financial planning.
+            </p>
+        </div>
+    </div>
+
+    <div id="expenseRevenueLinkModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('expenseRevenueLinkModal')">&times;</span>
+            <h3 class="text-2xl font-bold color-primary-blue mb-4">Expense-Revenue Link Details</h3>
+            <p class="text-gray-700 mb-4">
+                The core of financial health for any organization is understanding the relationship between money coming in (revenue from billing) and money going out (expenses from QuickBooks).
+            </p>
+            <p class="text-gray-700 mb-4">
+                **Why it's crucial:** Finance needs to compare total PPS-1 revenue with total allowable costs to assess profitability and ensure IDCC is operating sustainably. This comparison is fundamental for strategic decisions, especially concerning the 3-year PPS-1 rebasing cycle where costs directly influence the future rate.
+            </p>
+        </div>
+    </div>
+
+    <div id="dataFlowModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('dataFlowModal')">&times;</span>
+            <h3 class="text-2xl font-bold color-primary-blue mb-4">Data Flow & Reconciliation Details</h3>
+            <p class="text-gray-700 mb-4">
+                Even if billing (Millin) and finance (QuickBooks) use separate systems, a consistent and reliable flow of data between them is essential. At IDCC, this process is currently manual.
+            </p>
+            <p class="text-gray-700 mb-4 font-semibold">Challenges of a manual data flow include:</p>
+            <ul class="list-disc list-inside text-gray-700 mb-4 ml-4">
+                <li>**Delays:** Information transfer is not real-time, leading to outdated financial pictures.</li>
+                <li>**Errors:** Manual data entry increases the risk of human error, impacting accuracy.</li>
+                <li>**Lack of Granularity:** Summarized data might hide important details about specific claims or payment issues.</li>
+                <li>**Time-Consuming:** Significant staff time is spent on data entry and reconciliation instead of analysis.</li>
+            </ul>
+            <p class="text-gray-700 mb-4 font-semibold">Methods for improving data flow include:</p>
+            <ul class="list-disc list-inside text-gray-700 mb-4 ml-4">
+                <li>**Automated Integrations:** Ideally, direct electronic links between Millin and QuickBooks (or a central data warehouse) to automatically transfer revenue and payment data.</li>
+                <li>**Standardized Reports:** If direct integration isn't possible, establish clear, standardized reports from Millin that finance can easily use for reconciliation and analysis.</li>
+                <li>**Regular Reconciliation Meetings:** Scheduled meetings between billing and finance teams to review reports, identify discrepancies, and resolve issues collaboratively.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                **Why it's crucial:** Streamlining this process reduces manual errors, saves time, and provides finance with timely, accurate information needed for strategic decision-making and accurate reporting for PPS-1.
+            </p>
+        </div>
+    </div>
+
+
+    <script>
+        // Get references to the main sections
+        const overviewCards = document.getElementById('overview-cards');
+        const sections = document.querySelectorAll('.hidden-section'); // All detailed sections
+
+        // Get references to modals (numerator/denominator and new ones)
+        const numeratorModal = document.getElementById('numeratorModal');
+        const denominatorModal = document.getElementById('denominatorModal');
+        const coreComplianceModal = document.getElementById('coreComplianceModal');
+        const qualityMeasureModal = document.getElementById('qualityMeasureModal');
+        const scopeOfServicesModal = document.getElementById('scopeOfServicesModal');
+        const resourceAllocationModal = document.getElementById('resourceAllocationModal');
+        const trueCostModal = document.getElementById('trueCostModal');
+        const programDesignModal = document.getElementById('programDesignModal');
+        const advocacyModal = document.getElementById('advocacyModal');
+        const revenueVisibilityModal = document.getElementById('revenueVisibilityModal');
+        const expenseRevenueLinkModal = document.getElementById('expenseRevenueLinkModal');
+        const dataFlowModal = document.getElementById('dataFlowModal');
+
+
+        // Function to hide all detailed sections and show the overview
+        function showOverview() {
+            sections.forEach(section => {
+                section.classList.add('hidden-section');
+            });
+            overviewCards.classList.remove('hidden-section');
+        }
+
+        // Function to show a specific detailed section and hide the overview
+        function showSection(sectionId) {
+            overviewCards.classList.add('hidden-section'); // Hide overview
+            sections.forEach(section => {
+                if (section.id === sectionId) {
+                    section.classList.remove('hidden-section'); // Show the requested section
+                } else {
+                    section.classList.add('hidden-section'); // Hide others
+                }
+            });
+            window.scrollTo(0, 0); // Scroll to top when changing sections
+        }
+
+        // Functions to show specific modals
+        function showNumeratorDetails() {
+            numeratorModal.style.display = 'flex';
+        }
+
+        function showDenominatorDetails() {
+            denominatorModal.style.display = 'flex';
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        // Function to close any modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target == numeratorModal) {
+                closeModal('numeratorModal');
+            }
+            if (event.target == denominatorModal) {
+                closeModal('denominatorModal');
+            }
+            if (event.target == coreComplianceModal) {
+                closeModal('coreComplianceModal');
+            }
+            if (event.target == qualityMeasureModal) {
+                closeModal('qualityMeasureModal');
+            }
+            if (event.target == scopeOfServicesModal) {
+                closeModal('scopeOfServicesModal');
+            }
+            if (event.target == resourceAllocationModal) {
+                closeModal('resourceAllocationModal');
+            }
+            if (event.target == trueCostModal) {
+                closeModal('trueCostModal');
+            }
+            if (event.target == programDesignModal) {
+                closeModal('programDesignModal');
+            }
+            if (event.target == advocacyModal) {
+                closeModal('advocacyModal');
+            }
+            if (event.target == revenueVisibilityModal) {
+                closeModal('revenueVisibilityModal');
+            }
+            if (event.target == expenseRevenueLinkModal) {
+                closeModal('expenseRevenueLinkModal');
+            }
+            if (event.target == dataFlowModal) {
+                closeModal('dataFlowModal');
+            }
+        }
+
+        // Initial state: Show overview, hide all detailed sections
+        document.addEventListener('DOMContentLoaded', showOverview);
+    </script>
+</body>
+</html>
+
